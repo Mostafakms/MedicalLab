@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('family')->nullable(); // عائلة التحليل
             $table->decimal('price', 8, 2); // السعر
             $table->string('normal_range'); // المدى الطبيعي
+            $table->string('Unit'); // المدى الطبيعي
             $table->timestamps(); // created_at و updated_at
         });
     }

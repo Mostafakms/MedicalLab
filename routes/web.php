@@ -26,7 +26,11 @@ Route::get('/layout', function () {
     return view('layout');
 });
 
+Route::get('/orders/{order}/results', [OrderController::class, 'showResultsForm'])
+    ->name('orders.results');
 
+Route::post('/orders/{order}/results', [OrderController::class, 'saveResults'])
+    ->name('orders.saveResults');
 
 
 Route::get('/dashboard', function () {

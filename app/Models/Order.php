@@ -10,7 +10,7 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'patient_id', 'order_date', 'total_amount'
+        'patient_id', 'order_date', 'total_amount' ,'status'
     ];
 
      // علاقة "طلب واحد إلى مريض واحد"

@@ -12,11 +12,19 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = order::all();
+        $status = $request->query('status');
+    
+        if ($status && in_array($status, ['pending', 'completed', 'cancelled'])) {
+            $orders = \App\Models\Order::where('status', $status)->get();
+        } else {
+            $orders = \App\Models\Order::all();
+        }
+    
         return view('orders.index', compact('orders'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -39,7 +47,7 @@ class OrderController extends Controller
         'patient_id' => 'required|exists:patients,id',
         'order_date' => 'required|date',
         'test_ids'   => 'required|array',
-        'test_ids.*' => 'exists:tests,id',
+       // 'test_ids.*' => 'exists:tests,id',
         // Optional: if results are provided as an array where key is test_id
         'results'    => 'sometimes|array',
     ]);
@@ -62,14 +70,11 @@ class OrderController extends Controller
     }
 
     // Recalculate the total price by summing the prices of all selected tests.
-    $totalAmount = \App\Models\OrderDetail::where('order_id', $order->id)
-                    ->join('tests', 'order_details.test_id', '=', 'tests.id')
-                    ->sum('tests.price');
+    $totalAmount = \App\Models\Test::whereIn('id', $data['test_ids'])->sum('price');
+
 
     // Update the order record with the calculated total price
     $order->update(['total_amount' => $totalAmount]);
-
-    $updated = $order->update(['total_amount' => $totalAmount]);
 
 
     return redirect()->route('orders.index')->with('success', 'Order added successfully');
@@ -152,7 +157,7 @@ class OrderController extends Controller
         ]);
     }
 
-    // For tests that are already present, update their result if provided.
+   /* // For tests that are already present, update their result if provided.
     foreach ($order->orderDetails as $orderDetail) {
         if (in_array($orderDetail->test_id, $data['test_ids'])) {
             if (isset($data['results'][$orderDetail->test_id])) {
@@ -161,12 +166,11 @@ class OrderController extends Controller
                 ]);
             }
         }
-    }
+    }*/
 
     // Recalculate the total amount by summing the prices of all selected tests.
-    $totalAmount = \App\Models\OrderDetail::where('order_id', $order->id)
-                        ->join('tests', 'order_details.test_id', '=', 'tests.id')
-                        ->sum('tests.price');
+    $totalAmount = \App\Models\Test::whereIn('id', $data['test_ids'])->sum('price');
+
 
     // Update the order with the new total amount.
     $order->update(['total_amount' => $totalAmount]);
@@ -183,5 +187,39 @@ class OrderController extends Controller
     public function destroy(string $id)
     {
         //
+        $order = Order::findOrFail($id);
+        $order->delete();
+        return redirect()->route('orders.index')->with('success', 'Order deleted successfully.');
+    }
+
+    public function showResultsForm(Order $order)
+    {
+        
+    return view('orders.results', compact('order'));
+    }
+
+
+
+    public function saveResults(Request $request, \App\Models\Order $order)
+    {
+        $data = $request->validate([
+            'results' => 'required|array',
+            'results.*' => 'nullable|string',
+            'status' => 'required|in:pending,completed,cancelled',
+        ]);
+    
+        // تحديث نتائج الفحوصات لكل OrderDetail
+        foreach ($order->orderDetails as $detail) {
+            if (isset($data['results'][$detail->test_id])) {
+                $detail->update([
+                    'result' => $data['results'][$detail->test_id]
+                ]);
+            }
+        }
+    
+        // تحديث حالة الطلب بناءً على الاختيار الجديد
+        $order->update(['status' => $data['status']]);
+    
+        return redirect()->route('orders.index')->with('success', 'Results and status updated successfully');
     }
 }

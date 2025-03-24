@@ -20,6 +20,21 @@
         </div> <!--end::Container-->
     </div> <!--end::App Content Header-->
     
+    <!--begin::Filter Form-->
+    <div class="container-fluid mb-3">
+        <form action="{{ route('orders.index') }}" method="GET" class="d-flex align-items-center">
+            <label for="status" class="me-2">Filter by Status:</label>
+            <select name="status" id="status" class="form-select me-2" style="width: 200px;">
+                <option value="">All</option>
+                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completed</option>
+                <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+    </div>
+    <!--end::Filter Form-->
+    
     <!--begin::App Content-->
     <div class="app-content">
         <div class="container-fluid">
@@ -50,6 +65,7 @@
                                             <td>{{ ucfirst($order->status) }}</td>
                                             <td>
                                                 <a href="{{ route('orders.edit', $order->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                                <a href="{{ route('orders.results', $order->id) }}" class="btn btn-sm btn-primary">Enter Results</a>
                                                 <form action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline-block;">
                                                     @csrf
                                                     @method('DELETE')

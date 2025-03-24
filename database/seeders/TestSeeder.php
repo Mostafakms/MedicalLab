@@ -7,122 +7,254 @@ use Illuminate\Support\Facades\DB;
 
 class TestSeeder extends Seeder
 {
-    public function run()
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
     {
         DB::table('tests')->insert([
             [
-                'name' => 'صورة الدم الكاملة',
+                'name' => 'Complete Blood Count',
+                'family' => 'Hematology',
                 'price' => 150.00,
-                'normal_range' => '4.5-11.0 x10^9/L',
-                'family' => 'دم'
+                'normal_range' => '4.5-11',
+                'Unit' => 'cells/L',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'name' => 'تحليل سكر الدم',
-                'price' => 50.00,
-                'normal_range' => '70-110 mg/dL',
-                'family' => 'دم'
-            ],
-            [
-                'name' => 'تحليل وظائف الكبد',
-                'price' => 200.00,
-                'normal_range' => 'ALT: 7-56 U/L, AST: 10-40 U/L',
-                'family' => 'كيمياء حيوية'
-            ],
-            [
-                'name' => 'تحليل وظائف الكلى',
-                'price' => 180.00,
-                'normal_range' => 'Creatinine: 0.6-1.3 mg/dL',
-                'family' => 'كيمياء حيوية'
-            ],
-            [
-                'name' => 'تحليل فيتامين د',
-                'price' => 500.00,
-                'normal_range' => '20-50 ng/mL',
-                'family' => 'هرموني'
-            ],
-            [
-                'name' => 'البروفايل الدهني',
-                'price' => 120.00,
-                'normal_range' => 'Total Cholesterol: <200 mg/dL',
-                'family' => 'كيمياء حيوية'
-            ],
-            [
-                'name' => 'لوحة الغدة الدرقية',
-                'price' => 250.00,
-                'normal_range' => 'TSH: 0.4-4.0 mIU/L',
-                'family' => 'هرموني'
-            ],
-            [
-                'name' => 'تحليل الحمل',
-                'price' => 180.00,
-                'normal_range' => 'Negative',
-                'family' => 'بول'
-            ],
-            [
-                'name' => 'تحليل البول',
-                'price' => 70.00,
-                'normal_range' => 'Varies',
-                'family' => 'بول'
-            ],
-            [
-                'name' => 'زراعة البول',
-                'price' => 110.00,
-                'normal_range' => 'No growth',
-                'family' => 'بول'
-            ],
-            [
-                'name' => 'تحليل البراز',
-                'price' => 120.00,
-                'normal_range' => 'Negative',
-                'family' => 'براز'
-            ],
-            [
-                'name' => 'فحص الدم الخفي في البراز',
-                'price' => 130.00,
-                'normal_range' => 'Negative',
-                'family' => 'براز'
-            ],
-            [
-                'name' => 'لوحة الإلكتروليت',
-                'price' => 90.00,
-                'normal_range' => 'Sodium: 135-145 mEq/L',
-                'family' => 'كيمياء حيوية'
-            ],
-            [
-                'name' => 'لوحة التخثر',
-                'price' => 110.00,
-                'normal_range' => 'PT: 11-13.5 seconds',
-                'family' => 'دم'
-            ],
-            [
-                'name' => 'تحليل بروتين سي التفاعلي (CRP)',
-                'price' => 130.00,
-                'normal_range' => '< 10 mg/L',
-                'family' => 'التهاب'
-            ],
-            [
-                'name' => 'تحليل الهيموغلوبين السكري (HbA1c)',
-                'price' => 160.00,
-                'normal_range' => '4-5.6%',
-                'family' => 'دم'
-            ],
-            [
-                'name' => 'زمن البروثرومبين (PT)',
+                'name' => 'Blood Glucose Test',
+                'family' => 'Biochemistry',
                 'price' => 100.00,
-                'normal_range' => '11-13.5 seconds',
-                'family' => 'دم'
+                'normal_range' => '70-110',
+                'Unit' => 'mg/dL',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'name' => 'دراسات الحديد',
-                'price' => 140.00,
-                'normal_range' => 'Ferritin: 30-300 ng/mL',
-                'family' => 'دم'
-            ],
-            [
-                'name' => 'لوحة الفحص العائلي',
-                'price' => 300.00,
+                'name' => 'Lipid Profile',
+                'family' => 'Biochemistry',
+                'price' => 180.00,
                 'normal_range' => 'Varies',
-                'family' => 'عائلي'
+                'Unit' => 'mg/dL',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Liver Function Test',
+                'family' => 'Biochemistry',
+                'price' => 200.00,
+                'normal_range' => 'Varies',
+                'Unit' => 'IU/L',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Kidney Function Test',
+                'family' => 'Biochemistry',
+                'price' => 220.00,
+                'normal_range' => 'Varies',
+                'Unit' => 'mEq/L',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Thyroid Panel',
+                'family' => 'Endocrinology',
+                'price' => 130.00,
+                'normal_range' => '0.4-4.0',
+                'Unit' => 'mIU/L',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Hemoglobin A1C Test',
+                'family' => 'Hematology',
+                'price' => 120.00,
+                'normal_range' => '4-6',
+                'Unit' => '%',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Iron Panel',
+                'family' => 'Hematology',
+                'price' => 140.00,
+                'normal_range' => 'Varies',
+                'Unit' => 'µg/dL',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Vitamin D Test',
+                'family' => 'Endocrinology',
+                'price' => 160.00,
+                'normal_range' => '20-50',
+                'Unit' => 'ng/mL',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Vitamin B12 Test',
+                'family' => 'Hematology',
+                'price' => 110.00,
+                'normal_range' => '200-900',
+                'Unit' => 'pg/mL',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Urinalysis',
+                'family' => 'Urinalysis',
+                'price' => 80.00,
+                'normal_range' => 'Normal',
+                'Unit' => '',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Prostate Specific Antigen',
+                'family' => 'Oncology',
+                'price' => 90.00,
+                'normal_range' => '<4',
+                'Unit' => 'ng/mL',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'C-Reactive Protein Test',
+                'family' => 'Inflammation',
+                'price' => 90.00,
+                'normal_range' => '0-5',
+                'Unit' => 'mg/L',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Basic Metabolic Panel',
+                'family' => 'Biochemistry',
+                'price' => 150.00,
+                'normal_range' => 'Varies',
+                'Unit' => 'Varies',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Comprehensive Metabolic Panel',
+                'family' => 'Biochemistry',
+                'price' => 180.00,
+                'normal_range' => 'Varies',
+                'Unit' => 'Varies',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Coagulation Panel (PT/PTT)',
+                'family' => 'Hematology',
+                'price' => 130.00,
+                'normal_range' => 'Varies',
+                'Unit' => 'seconds',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Troponin Test',
+                'family' => 'Cardiology',
+                'price' => 250.00,
+                'normal_range' => 'Varies',
+                'Unit' => 'ng/L',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'B-type Natriuretic Peptide (BNP)',
+                'family' => 'Cardiology',
+                'price' => 200.00,
+                'normal_range' => '0-100',
+                'Unit' => 'pg/mL',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'DHEA-Sulfate Test',
+                'family' => 'Endocrinology',
+                'price' => 140.00,
+                'normal_range' => 'Varies',
+                'Unit' => 'µg/dL',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Creatinine Test',
+                'family' => 'Biochemistry',
+                'price' => 120.00,
+                'normal_range' => '0.6-1.2',
+                'Unit' => 'mg/dL',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Uric Acid Test',
+                'family' => 'Biochemistry',
+                'price' => 110.00,
+                'normal_range' => '3.5-7.2',
+                'Unit' => 'mg/dL',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'HIV Antibody Test',
+                'family' => 'Infectious Disease',
+                'price' => 300.00,
+                'normal_range' => 'Non-reactive',
+                'Unit' => '',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Syphilis Test',
+                'family' => 'Infectious Disease',
+                'price' => 280.00,
+                'normal_range' => 'Non-reactive',
+                'Unit' => '',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Pap Smear',
+                'family' => 'Gynecology',
+                'price' => 250.00,
+                'normal_range' => 'Normal',
+                'Unit' => '',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Digital Pregnancy Test',
+                'family' => 'Gynecology',
+                'price' => 80.00,
+                'normal_range' => 'Detectable/Non-detectable',
+                'Unit' => '',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Conventional Pregnancy Test',
+                'family' => 'Gynecology',
+                'price' => 50.00,
+                'normal_range' => 'Detectable/Non-detectable',
+                'Unit' => '',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Urine Drug Test',
+                'family' => 'Toxicology',
+                'price' => 100.00,
+                'normal_range' => 'Negative/Positive',
+                'Unit' => '',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
         ]);
     }

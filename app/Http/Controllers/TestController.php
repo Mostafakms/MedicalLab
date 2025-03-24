@@ -13,8 +13,9 @@ class TestController extends Controller
      */
     public function index()
     {
-        $tests = test::all();
-        return view('tests.index', compact('tests'));
+        $groupedTests = \App\Models\Test::all()->groupBy('family');
+
+        return view('tests.index', compact('groupedTests'));
     }
 
     /**
@@ -62,6 +63,8 @@ class TestController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $test = test::find($id);
+        $test->delete();
+        return redirect()->route('tests.index');
     }
 }
