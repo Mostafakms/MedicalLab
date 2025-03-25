@@ -49,11 +49,22 @@
                                             <td>{{ $detail->test?->name ?? 'Test not found' }}</td>
                                             <td>{{ $detail->test?->normal_range ?? 'N/A' }}</td>
                                             <td>
-                                                <input type="text" name="results[{{ $detail->test_id }}]" 
-                                                       value="{{ $detail->result }}" 
-                                                       class="form-control result-input" 
-                                                       placeholder="Enter result"
-                                                       data-normal-range="{{ $detail->test?->normal_range ?? '' }}">
+                                                @php
+                                                    $testName = strtolower($detail->test?->name ?? '');
+                                                @endphp
+                                    
+                                                @if(str_contains($testName, 'urin') || str_contains($testName, 'stool'))
+                                                    <!-- زر الدخول لتقرير التحليل التفصيلي -->
+                                                    <a href="{{ route('orders.enterReport', ['orderId' => $order->id, 'testId' => $detail->test_id]) }}" class="btn btn-sm btn-primary">
+                                                        Enter Report
+                                                    </a>
+                                                @else
+                                                    <input type="text" name="results[{{ $detail->test_id }}]" 
+                                                           value="{{ $detail->result }}" 
+                                                           class="form-control result-input" 
+                                                           placeholder="Enter result"
+                                                           data-normal-range="{{ $detail->test?->normal_range ?? '' }}">
+                                                @endif
                                             </td>
                                             <td>
                                                 <span class="result-indicator"></span>

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\order;
+use App\Models\Order;
 use App\Models\Patient;
 use App\Models\Test;
-
+use App\Models\OrderDetail;
 class OrderController extends Controller
 {
     /**
@@ -222,4 +222,34 @@ class OrderController extends Controller
     
         return redirect()->route('orders.index')->with('success', 'Results and status updated successfully');
     }
+
+
+
+    public function showReportForm($orderId, $testId)
+{
+    $order = Order::findOrFail($orderId);
+    $test = Test::findOrFail($testId);
+
+    return view('orders.report', compact('order', 'test'));
+}
+
+
+public function test()
+{
+
+    return view('orders.test');
+}
+
+
+public function saveReport(Request $request, $orderId, $testId)
+{
+    $orderDetail = OrderDetail::where('order_id', $orderId)->where('test_id', $testId)->firstOrFail();
+    
+    $orderDetail->report_details = $request->input('report_details');
+    $orderDetail->save();
+
+    return redirect()->route('orders.index')->with('success', 'Report saved successfully!');
+}
+
+
 }

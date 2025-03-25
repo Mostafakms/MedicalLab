@@ -256,6 +256,36 @@ class TestSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+
+
+            [
+                'name' => 'Stool Analysis',
+                'family' => 'Microbiology',
+                'price' => 120.00,
+                'normal_range' => 'Normal/Abnormal',
+                'Unit' => '',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Fecal Occult Blood Test',
+                'family' => 'Hematology',
+                'price' => 150.00,
+                'normal_range' => 'Negative/Positive',
+                'Unit' => '',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Parasite Stool Test',
+                'family' => 'Parasitology',
+                'price' => 180.00,
+                'normal_range' => 'No Parasites/Detected',
+                'Unit' => '',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
         ]);
     }
 }

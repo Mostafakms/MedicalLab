@@ -32,6 +32,11 @@ Route::get('/orders/{order}/results', [OrderController::class, 'showResultsForm'
 Route::post('/orders/{order}/results', [OrderController::class, 'saveResults'])
     ->name('orders.saveResults');
 
+Route::get('/orders/report/{orderId}/{testId}', [OrderController::class, 'showReportForm'])->name('orders.enterReport');
+Route::get('/test/{orderId}/{testId}/', [OrderController::class, 'test'])->name('orders.test');
+
+Route::post('/orders/{orderId}/report/{testId}', [OrderController::class, 'saveReport'])->name('orders.saveReport');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
