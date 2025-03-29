@@ -32,10 +32,10 @@
                         <div class="card-body">
                             <form action="{{ route('orders.store') }}" method="POST" id="orderForm">
                                 @csrf
-                                <!-- Patient Dropdown -->
+                                <!-- Patient Search Dropdown -->
                                 <div class="mb-3">
                                     <label for="patient_id" class="form-label">Patient</label>
-                                    <select name="patient_id" id="patient_id" class="form-control" required>
+                                    <select name="patient_id" id="patient_id" class="form-control select2" required>
                                         <option value="">Select Patient</option>
                                         @foreach($patients as $patient)
                                             <option value="{{ $patient->id }}">{{ $patient->name }}</option>
@@ -86,24 +86,47 @@
     </div>
 </main>
 
-<!-- Client-side Calculation Script -->
+<!-- Include Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<!-- Include Flatpickr CSS and JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<!-- Include jQuery (required for Select2) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script>
-    // Get all test checkboxes
-    var checkboxes = document.querySelectorAll('.test-checkbox');
-    
-    // Add change event listener to recalculate total price when checkboxes are toggled
-    checkboxes.forEach(function(checkbox) {
-        checkbox.addEventListener('change', calculateTotal);
-    });
-    
-    function calculateTotal() {
-        var total = 0;
-        checkboxes.forEach(function(cb) {
-            if (cb.checked) {
-                total += parseFloat(cb.dataset.price);
-            }
+    // Initialize Select2 for patient search
+    $(document).ready(function() {
+        $('#patient_id').select2({
+            placeholder: 'Select Patient',
+            allowClear: true
         });
-        document.getElementById('total_price').value = total.toFixed(2);
-    }
+        
+        // Initialize Flatpickr (if needed for other fields)
+        flatpickr("#order_date", {
+            dateFormat: "Y-m-d",
+            allowInput: true
+        });
+        
+        // Client-side calculation for total price
+        const checkboxes = document.querySelectorAll('.test-checkbox');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', calculateTotal);
+        });
+        
+        function calculateTotal() {
+            let total = 0;
+            checkboxes.forEach(function(cb) {
+                if (cb.checked) {
+                    total += parseFloat(cb.dataset.price);
+                }
+            });
+            document.getElementById('total_price').value = total.toFixed(2);
+        }
+    });
 </script>
 @endsection

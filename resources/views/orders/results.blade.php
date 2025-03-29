@@ -32,14 +32,14 @@
                             <div class="card-title">Enter Test Results for Order #{{ $order->id }}</div>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('orders.saveResults', $order->id) }}" method="POST">
+                            <form action="{{ route('orders.saveResults', $order->id) }}" method="POST" id="orderForm">
                                 @csrf
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th>Test Name</th>
                                             <th>Normal Range</th>
-                                            <th>Result</th>
+                                            <th>Result / Report</th>
                                             <th>Indication</th>
                                         </tr>
                                     </thead>
@@ -52,11 +52,10 @@
                                                 @php
                                                     $testName = strtolower($detail->test?->name ?? '');
                                                 @endphp
-                                    
                                                 @if(str_contains($testName, 'urin') || str_contains($testName, 'stool'))
-                                                    <!-- زر الدخول لتقرير التحليل التفصيلي -->
-                                                    <a href="{{ route('orders.enterReport', ['orderId' => $order->id, 'testId' => $detail->test_id]) }}" class="btn btn-sm btn-primary">
-                                                        Enter Report
+                                                    <!-- عرض زر لفتح صفحة التقرير التفصيلي -->
+                                                    <a href="{{ route('orders.enterStoolReport', ['orderId' => $order->id, 'orderDetailId' => $detail->id]) }}" class="btn btn-sm btn-primary">
+                                                        Enter Detailed Report
                                                     </a>
                                                 @else
                                                     <input type="text" name="results[{{ $detail->test_id }}]" 
@@ -84,7 +83,11 @@
                                     </select>
                                 </div>
                                 
-                                <button type="submit" class="btn btn-success">Save Results</button>
+                                <div class="d-flex justify-content-between">
+                                    <button type="submit" class="btn btn-success">Save Results</button>
+                                    <!-- زر الطباعة -->
+                                    <a href="{{ route('orders.generatePdf', $order->id) }}" class="btn btn-secondary">Download PDF</a>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -141,4 +144,21 @@
         }
     });
 </script>
+
+<!-- Print CSS to style input fields as plain text during printing -->
+<style>
+    @media print {
+        input.form-control,
+        select.form-control,
+        button {
+            border: none;
+            background: transparent;
+            font-size: 16px;
+        }
+        /* إخفاء عناصر معينة مثل أزرار الحفظ والطباعة إذا رغبت */
+        button {
+            display: none;
+        }
+    }
+</style>
 @endsection

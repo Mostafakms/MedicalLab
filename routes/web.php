@@ -32,10 +32,11 @@ Route::get('/orders/{order}/results', [OrderController::class, 'showResultsForm'
 Route::post('/orders/{order}/results', [OrderController::class, 'saveResults'])
     ->name('orders.saveResults');
 
-Route::get('/orders/report/{orderId}/{testId}', [OrderController::class, 'showReportForm'])->name('orders.enterReport');
-Route::get('/test/{orderId}/{testId}/', [OrderController::class, 'test'])->name('orders.test');
-
-Route::post('/orders/{orderId}/report/{testId}', [OrderController::class, 'saveReport'])->name('orders.saveReport');
+Route::get('/orders/{orderId}/stool-report/{orderDetailId}', [OrderController::class, 'showStoolReportForm'])->name('orders.enterStoolReport');
+Route::post('/orders/{orderId}/stool-report/{orderDetailId}', [OrderController::class, 'saveStoolReport'])->name('orders.saveStoolReport');
+    
+Route::get('/orders/{order}/print', [OrderController::class, 'print'])->name('orders.print');
+Route::get('/orders/{order}/pdf', [OrderController::class, 'generateOrderPdf'])->name('orders.generatePdf');
 
 
 Route::get('/dashboard', function () {

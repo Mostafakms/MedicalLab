@@ -29,4 +29,12 @@ class OrderDetail extends Model
      {
          return $this->belongsTo(Test::class);
      }
+
+
+
+     public function report()
+     {
+         return $this->hasOne(TestReport::class);
+     }
+
 }

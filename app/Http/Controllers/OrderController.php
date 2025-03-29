@@ -7,7 +7,10 @@ use App\Models\Order;
 use App\Models\Patient;
 use App\Models\Test;
 use App\Models\OrderDetail;
+use Barryvdh\DomPDF\Facade\Pdf;
 class OrderController extends Controller
+
+
 {
     /**
      * Display a listing of the resource.
@@ -250,6 +253,71 @@ public function saveReport(Request $request, $orderId, $testId)
 
     return redirect()->route('orders.index')->with('success', 'Report saved successfully!');
 }
+
+
+public function showStoolReportForm($orderId, $orderDetailId)
+{
+    $order = Order::findOrFail($orderId);
+    $orderDetail = OrderDetail::findOrFail($orderDetailId);
+    // لو كان التقرير موجود بالفعل، يمكنك جلبه
+    $report = $orderDetail->report;
+    
+    return view('orders.enter_stool_report', compact('order', 'orderDetail', 'report'));
+}
+
+public function saveStoolReport(Request $request, $orderId, $orderDetailId)
+{
+    $validated = $request->validate([
+        'consistency' => 'required|string',
+        'mucus' => 'required|string',
+        'blood' => 'required|string',
+        'odour' => 'required|string',
+        'colour' => 'required|string',
+        'worms' => 'required|string',
+        'rbc' => 'required|string',
+        'pus_cells' => 'required|string',
+        'starch_granules' => 'required|string',
+        'fat_globules' => 'required|string',
+        'muscle_fibers' => 'required|string',
+        'vegetable_cells' => 'required|string',
+        'ova' => 'required|string',
+        'larva' => 'required|string',
+        'protozoa' => 'required|string',
+    ]);
+
+    // إيجاد سجل تفاصيل الطلب
+    $orderDetail = OrderDetail::findOrFail($orderDetailId);
+    
+    // تحديث التقرير إذا كان موجوداً أو إنشاؤه جديداً
+    $orderDetail->report()->updateOrCreate(
+        ['order_detail_id' => $orderDetail->id],
+        $validated
+    );
+
+    return redirect()->route('orders.index')->with('success', 'Stool report saved successfully!');
+}
+
+
+
+public function print(Order $order)
+{
+    $order->load(['patient', 'orderDetails.test', 'orderDetails.report']); // تأكد من تحميل العلاقات الضرورية
+    return view('orders.print_order', compact('order'));
+}
+
+
+
+public function generateOrderPdf(Order $order)
+{
+    $order->load(['patient', 'orderDetails.test', 'orderDetails.report']);
+    
+    // توليد ملف PDF من صفحة Blade، مثلاً: orders.pdf_order
+    $pdf = Pdf::loadView('orders.pdf_order', compact('order'))
+              ->setPaper('A4');
+
+    return $pdf->download("order-{$order->id}.pdf");
+}
+
 
 
 }
